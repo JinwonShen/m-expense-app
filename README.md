@@ -4,17 +4,17 @@ React Native + Expo + TypeScript 기반의 **개인 지출 관리 앱**입니다
 사용자가 **문자 내용을 붙여넣어 자동으로 지출을 등록**할 수 있고,  
 캘린더 및 리스트 화면을 통해 내역을 확인할 수 있도록 설계되었습니다.
 
-<br>
+---
 
 ## 📱 주요 기능 (MVP)
 
-- 지출 등록: 금액 + 메모 입력, 또는 문자 붙여넣기 파싱
+- 지출 등록: 금액 + 메모 입력, 또는 문자 붙여넣기 파싱 (예정)
 - 지출 내역 확인: FlatList로 전체 내역 출력
 - 총 지출 합계 계산
-- 데이터 로컬 저장 (AsyncStorage)
+- 날짜별 지출 내역 캘린더 마킹
 - 간편한 화면 이동: Bottom Tab + Floating Action Button
 
-<br>
+---
 
 ## 📐 앱 화면 구조
 
@@ -23,14 +23,14 @@ React Native + Expo + TypeScript 기반의 **개인 지출 관리 앱**입니다
 ┌──────────────┐
 │  TabNavigator       │
 │     ┌─────────────┐ ▼
-│     │ 📅 캘린더 탭        → 일별 지출 금액 확인
-│     │ 📃 리스트 탭        → 전체 내역 확인
+│     │ 📅 캘린더 탭        → 일별 지출 금액 확인 (마킹 완료)
+│     │ 📃 리스트 탭        → 전체 내역 확인 + 총합
 │     │ ➕ FAB 버튼       → 지출 등록 모달로 이동
 │     └─────────────┘
 └──────────────┘
 ```
 
-<br>
+---
 
 ## 🧱 프로젝트 구조
 
@@ -47,19 +47,21 @@ my-expense-app/
 │   └── types/           # 지출 항목 타입 정의
 ```
 
-<br>
+---
 
 ## 🛠 사용 기술
 
-| 기술                      | 설명                           |
-| ------------------------- | ------------------------------ |
+| 기술 | 설명 |
+|------|------|
 | [Expo](https://expo.dev/) | React Native 앱 빠른 개발 환경 |
-| React Native              | 모바일 앱 UI 구성 프레임워크   |
-| TypeScript                | 타입 안정성 강화               |
-| React Navigation          | 화면 전환 및 탭 구성           |
-| AsyncStorage              | 로컬 데이터 저장               |
+| React Native | 모바일 앱 UI 구성 프레임워크 |
+| TypeScript | 타입 안정성 강화 |
+| React Navigation | 화면 전환 및 탭 구성 |
+| AsyncStorage | 로컬 데이터 저장 |
+| react-native-calendars | 캘린더 화면 구성 |
+| react-native-safe-area-context | SafeAreaInsets 처리 |
 
-<br>
+---
 
 ## 🚀 실행 방법
 
@@ -79,7 +81,7 @@ npx expo start
 - Android: `a` 키
 - 모바일 기기: [Expo Go](https://expo.dev/client) 앱 설치 후 QR코드 스캔
 
-<br>
+---
 
 ## ✨ 향후 확장 계획
 
@@ -89,7 +91,7 @@ npx expo start
 - [ ] 통계 및 차트 시각화
 - [ ] 다크모드 지원
 
-<br>
+---
 
 ## 👨‍💻 개발자
 

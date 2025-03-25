@@ -5,9 +5,10 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import CalendarScreen from './src/CalendarScreen';
-import ListScreen from './src/ListScreen';
-import RegisterScreen from './src/RegisterScreen';
+
+import CalendarScreen from './src/screens/CalendarScreen';
+import ListScreen from './src/screens/ListScreen';
+import RegisterScreen from './src/screens/RegisterScreen';
 
 // 1. 탭 네비게이터 생성
 const Tab = createBottomTabNavigator();
