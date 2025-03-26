@@ -1,10 +1,11 @@
-// import { StatusBar } from 'expo-status-bar';
+import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { ExpenseProvider, useExpenses } from './src/contexts/ExpenseContext';
 
 import CalendarScreen from './src/screens/CalendarScreen';
 import ListScreen from './src/screens/ListScreen';
@@ -71,6 +72,7 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
+    <ExpenseProvider>
       <NavigationContainer>
         <Stack.Navigator>
           {/* Tab이 루트 화면 */}
@@ -86,7 +88,8 @@ export default function App() {
             options={{ presentation: 'modal', title: '지출 등록'}}
           />
         </Stack.Navigator>
-    </NavigationContainer>
+      </NavigationContainer>
+    </ExpenseProvider>
   );
 }
 

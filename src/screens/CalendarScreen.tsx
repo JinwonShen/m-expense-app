@@ -1,37 +1,88 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { Calendar } from 'react-native-calendars'
-import type { DateData } from 'react-native-calendars'
+import { Calendar } from 'react-native-calendars';
+import type { DateData } from 'react-native-calendars';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import type { EdgeInsets } from 'react-native-safe-area-context';
+import { useExpenses } from '../contexts/ExpenseContext'; // ✅ 전역 데이터 불러오기
 
 export default function CalendarScreen() {
-  const dummyExpenses = [
-    { id: '1', amount: 44000, memo: '포메인 (중앙점)', date: '2025-03-25' },
-    { id: '2', amount: 12000, memo: '버스 충전', date: '2025-03-24' },
-    { id: '3', amount: 5200, memo: '스타벅스', date: '2025-03-24' },
-  ];
+  const { expenses } = useExpenses(); // ✅ 전역 상태 사용
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const insets = useSafeAreaInsets();
+  const styles = createStyles(insets);
 
-  const markedDates = dummyExpenses.reduce((acc, expense) => {
-    if(!acc[expense.date]) {
+  // ✅ markedDates 구성 (날짜별 마킹)
+  const markedDates = expenses.reduce((acc, expense) => {
+    if (!acc[expense.date]) {
       acc[expense.date] = {
         marked: true,
-        dotColor: 'blue'
-      }
+        dotColor: 'skyblue',
+      };
     }
     return acc;
-  }, {} as Record<string, {marked: true; dotColor: string}>)
+  }, {} as Record<string, { marked: true; dotColor: string }>);
+
+  // ✅ 선택한 날짜의 지출 필터링
+  const filteredExpenses = expenses.filter((expense) =>
+    expense.date === selectedDate
+  );
 
   return (
     <View style={styles.container}>
       <Calendar
         onDayPress={(day: DateData) => {
-          console.log("선택한 날짜:", day.dateString)
+          setSelectedDate(day.dateString);
         }}
         markedDates={markedDates}
+        theme={{
+          textDayFontSize: 16,
+          textMonthFontSize: 16,
+          textDayHeaderFontSize: 12,
+        }}
       />
+
+      {selectedDate && (
+        <View style={styles.expenseContainer}>
+          <Text style={styles.selectedTitle}>{selectedDate} 지출 내역</Text>
+          {filteredExpenses.length > 0 ? (
+            filteredExpenses.map((item) => (
+              <Text key={item.id} style={styles.expenseItem}>
+                • {item.memo} - ￦{item.amount.toLocaleString()}
+              </Text>
+            ))
+          ) : (
+            <Text style={styles.noExpense}>지출 내역이 없습니다.</Text>
+          )}
+        </View>
+      )}
     </View>
-  )
+  );
 }
 
-const styles = StyleSheet.create({
-  container: {flex: 1, justifyContent: "center", alignItems: "center"}
-})
+const createStyles = (insets: EdgeInsets) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      paddingTop: insets.top,
+      paddingHorizontal: 20,
+      backgroundColor: '#fff',
+    },
+    expenseContainer: {
+      marginTop: 20,
+    },
+    selectedTitle: {
+      fontSize: 16,
+      fontWeight: 'bold',
+      marginBottom: 8,
+    },
+    expenseItem: {
+      fontSize: 14,
+      marginBottom: 4,
+    },
+    noExpense: {
+      fontSize: 14,
+      fontStyle: 'italic',
+      color: '#666',
+    },
+  });

@@ -2,20 +2,17 @@ import React from 'react';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import type { EdgeInsets } from 'react-native-safe-area-context';
+import { Expense, useExpenses } from '../contexts/ExpenseContext';
 
 export default function ListScreen() {
   const insets = useSafeAreaInsets();
   const styles = createStyles(insets)
 
-  const dummyExpenses = [
-    { id: '1', amount: 44000, memo: '포메인 (중앙점)', date: '2025-03-25' },
-    { id: '2', amount: 12000, memo: '버스 충전', date: '2025-03-24' },
-    { id: '3', amount: 5200, memo: '스타벅스', date: '2025-03-24' },
-  ];
+  const { expenses } = useExpenses()
 
-  const total = dummyExpenses.reduce((sum, expense) => sum + expense.amount, 0);
+  const total = expenses.reduce((sum, expense) => sum + expense.amount, 0);
 
-  const renderItem = ({ item }: { item: typeof dummyExpenses[0] }) => (
+  const renderItem = ({ item }: { item: Expense }) => (
     <View style={styles.item}>
       <Text style={styles.memo}>{item.memo}</Text>
       <Text style={styles.amount}>￦{item.amount.toLocaleString()}</Text>
@@ -27,7 +24,7 @@ export default function ListScreen() {
     <View style={styles.container}>
       <Text style={styles.total}>총 지출: ￦{total.toLocaleString()}</Text>
       <FlatList
-        data={dummyExpenses}
+        data={expenses}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
       />
